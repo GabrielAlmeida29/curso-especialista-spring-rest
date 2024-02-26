@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.controller;
 
 import java.util.List;
 
+import com.algaworks.algafood.api.model.CozinhasXmlWapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,7 @@ import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 
 @RestController
-@RequestMapping(value="/cozinhas", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+@RequestMapping(value="/cozinhas")
 public class CozinhaController {
 
 	@Autowired
@@ -22,6 +23,11 @@ public class CozinhaController {
 	@GetMapping
 	public List<Cozinha> listar() {
 		return cozinhaRepository.listar();
+	}
+
+	@GetMapping(produces=MediaType.APPLICATION_XML_VALUE)
+	public  CozinhasXmlWapper listarxml() {
+		return new CozinhasXmlWapper(cozinhaRepository.listar());
 	}
 
 	@GetMapping("/{cozinhaId}")
