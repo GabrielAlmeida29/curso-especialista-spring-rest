@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.controller;
 import java.util.List;
 
 import com.algaworks.algafood.api.model.CozinhasXmlWapper;
+import com.algaworks.algafood.domain.service.CozinhaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,9 @@ public class CozinhaController {
 
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
+
+	@Autowired
+	private CozinhaService cozinhaService;
 	
 	@GetMapping
 	public List<Cozinha> listar() {
@@ -45,13 +49,13 @@ public class CozinhaController {
 
 	@PostMapping
 	public ResponseEntity<Cozinha> adicionar(@RequestBody Cozinha cozinha){
-		Cozinha novaCozinha = cozinhaRepository.salvar(cozinha);
+		Cozinha novaCozinha = cozinhaService.salvar(cozinha);
 
 			return ResponseEntity.status(HttpStatus.CREATED).body(novaCozinha);
 		}
 
 	@PutMapping("/{cozinhaId}")
-	public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha){
+	public ResponseEntity<Cozinha> adicionar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha){
 		Cozinha cozinhaAtual = cozinhaRepository.buscar(cozinhaId);
 
 		if(cozinhaAtual!=null) {
