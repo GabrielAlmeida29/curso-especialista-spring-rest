@@ -2,18 +2,14 @@ package com.algaworks.algafood.api.controller;
 
 import java.util.List;
 
-import com.algaworks.algafood.api.model.CozinhasXmlWapper;
 import com.algaworks.algafood.domain.exceptions.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.service.CozinhaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import com.algaworks.algafood.domain.model.Cozinha;
@@ -32,11 +28,6 @@ public class CozinhaController {
 	@GetMapping
 	public List<Cozinha> listar() {
 		return cozinhaRepository.listar();
-	}
-
-	@GetMapping(produces=MediaType.APPLICATION_XML_VALUE)
-	public  CozinhasXmlWapper listarxml() {
-		return new CozinhasXmlWapper(cozinhaRepository.listar());
 	}
 
 	@GetMapping("/{cozinhaId}")
@@ -64,7 +55,7 @@ public class CozinhaController {
 			//cozinhaAtual.setNome(cozinha.getNome());
 			BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
 
-			cozinhaRepository.salvar(cozinhaAtual);
+			cozinhaService.salvar(cozinhaAtual);
 			return ResponseEntity.status(HttpStatus.OK).body(cozinhaAtual);
 
 		} else {

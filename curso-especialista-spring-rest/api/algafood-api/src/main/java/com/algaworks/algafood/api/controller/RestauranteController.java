@@ -12,7 +12,7 @@ import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 
 @RestController
-@RequestMapping(value="/restaurantes", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+@RequestMapping(value="/restaurantes")
 public class RestauranteController {
 
 	@Autowired

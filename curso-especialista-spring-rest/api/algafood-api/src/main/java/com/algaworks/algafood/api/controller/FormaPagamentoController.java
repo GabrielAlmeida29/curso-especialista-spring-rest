@@ -12,7 +12,7 @@ import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.repository.FormaPagamentoRepository;
 
 @RestController
-@RequestMapping(value="/formaPagamentos", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+@RequestMapping(value="/formaPagamentos")
 public class FormaPagamentoController {
 
 	@Autowired

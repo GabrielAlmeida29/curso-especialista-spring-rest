@@ -12,7 +12,7 @@ import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 
 @RestController
-@RequestMapping(value="/cidades", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+@RequestMapping(value="/cidades")
 public class CidadeController {
 
 	@Autowired

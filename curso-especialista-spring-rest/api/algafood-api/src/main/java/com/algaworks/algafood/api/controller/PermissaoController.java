@@ -12,7 +12,7 @@ import com.algaworks.algafood.domain.model.Permissao;
 import com.algaworks.algafood.domain.repository.PermissaoRepository;
 
 @RestController
-@RequestMapping(value="/permissoes", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+@RequestMapping(value="/permissoes")
 public class PermissaoController {
 
 	@Autowired

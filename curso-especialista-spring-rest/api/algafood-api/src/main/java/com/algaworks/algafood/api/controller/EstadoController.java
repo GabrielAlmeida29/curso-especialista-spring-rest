@@ -12,7 +12,7 @@ import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
 
 @RestController
-@RequestMapping(value="/estados", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+@RequestMapping(value="/estados")
 public class EstadoController {
 
 	@Autowired
