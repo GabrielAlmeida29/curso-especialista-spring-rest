@@ -20,7 +20,7 @@ public class PermissaoController {
 	
 	@GetMapping
 	public List<Permissao> listar() {
-		return PermissaoRepository.listar();
+		return PermissaoRepository.findAll();
 	}
 	
 }

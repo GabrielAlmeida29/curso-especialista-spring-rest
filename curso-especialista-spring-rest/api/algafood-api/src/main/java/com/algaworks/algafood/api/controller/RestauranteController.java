@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value="/restaurantes")
@@ -29,14 +30,14 @@ public class RestauranteController {
 
 	@GetMapping
 	public List<Restaurante> listar() {
-		return restauranteRepository.listar();
+		return restauranteRepository.findAll();
 	}
 
 	@GetMapping("/{restauranteId}")
 	public ResponseEntity<Restaurante> buscar(@PathVariable Long restauranteId) {
-		Restaurante restaurante = restauranteRepository.buscar(restauranteId);
-		if (restaurante!=null) {
-			return ResponseEntity.status(HttpStatus.OK).body(restaurante);
+		Optional<Restaurante> restaurante = restauranteRepository.findById(restauranteId);
+		if (restaurante.isPresent()) {
+			return ResponseEntity.status(HttpStatus.OK).body(restaurante.get());
 		} else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
@@ -57,12 +58,12 @@ public class RestauranteController {
 	@PutMapping("/{restauranteId}")
 	public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante){
 		try {
-			Restaurante restauranteAtual = restauranteRepository.buscar(restauranteId);
-			if (restauranteAtual != null) {
-			//restauranteAtual.setNome(restaurante.getNome());
+			Restaurante restauranteAtual = restauranteRepository
+					.findById(restauranteId).orElse(null);
+			if (restauranteAtual!=null) {
 			BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
 
-			restauranteService.salvar(restauranteAtual);
+			restauranteAtual = restauranteService.salvar(restauranteAtual);
 			return ResponseEntity.status(HttpStatus.OK).body(restauranteAtual);
 
 			} else {
@@ -89,7 +90,8 @@ public class RestauranteController {
 	@PatchMapping("/{restauranteId}")
 	public ResponseEntity<?> atualizarParcial(@PathVariable Long restauranteId,
 											  @RequestBody Map<String, Object> campos) {
-		Restaurante restauranteAtual = restauranteRepository.buscar(restauranteId);
+		Restaurante restauranteAtual = restauranteRepository
+				.findById(restauranteId).orElse(null);
 
 		if (restauranteAtual == null) {
 			return ResponseEntity.notFound().build();

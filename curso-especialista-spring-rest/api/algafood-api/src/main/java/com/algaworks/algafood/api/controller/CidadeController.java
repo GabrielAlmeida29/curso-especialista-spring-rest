@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.algaworks.algafood.domain.exceptions.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exceptions.EntidadeNaoEncontradaException;
@@ -30,14 +31,14 @@ public class CidadeController {
 
 	@GetMapping
 	public List<Cidade> listar() {
-		return cidadeRepository.listar();
+		return cidadeRepository.findAll();
 	}
 
 	@GetMapping("/{cidadeId}")
 	public ResponseEntity<Cidade> buscar(@PathVariable Long cidadeId) {
-		Cidade cidade = cidadeRepository.buscar(cidadeId);
-		if (cidade!=null) {
-			return ResponseEntity.status(HttpStatus.OK).body(cidade);
+		Optional<Cidade> cidade = cidadeRepository.findById(cidadeId);
+		if (cidade.isPresent()) {
+			return ResponseEntity.status(HttpStatus.OK).body(cidade.get());
 		} else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
@@ -58,11 +59,11 @@ public class CidadeController {
 	@PutMapping("/{cidadeId}")
 	public ResponseEntity<?> atualizar(@PathVariable Long cidadeId, @RequestBody Cidade cidade){
 		try {
-			Cidade cidadeAtual = cidadeRepository.buscar(cidadeId);
+			Cidade cidadeAtual = cidadeRepository.findById(cidadeId).orElse(null);
 			if (cidadeAtual!=null) {
 				BeanUtils.copyProperties(cidade, cidadeAtual, "id");
 
-				cidadeService.salvar(cidadeAtual);
+				cidadeAtual = cidadeService.salvar(cidadeAtual);
 				return ResponseEntity.status(HttpStatus.OK).body(cidadeAtual);
 
 			} else {
