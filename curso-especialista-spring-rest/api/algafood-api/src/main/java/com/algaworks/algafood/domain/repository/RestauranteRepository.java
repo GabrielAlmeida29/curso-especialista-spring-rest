@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface RestauranteRepository
-        extends JpaRepository<Restaurante, Long>, CustomizedRestauranteRepositoryQueries, JpaSpecificationExecutor<Restaurante> {
+        extends CustomJpaRepository<Restaurante, Long>, CustomizedRestauranteRepositoryQueries, JpaSpecificationExecutor<Restaurante> {
 
     List<Restaurante> findByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
 
