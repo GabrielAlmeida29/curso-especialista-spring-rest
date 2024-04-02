@@ -29,9 +29,9 @@ public class Produto {
     @Column(nullable = false)
     private Boolean ativo;
 
-    @JsonIgnore
-    @Embedded
-    private FotoProduto fotoProduto;
+//    @JsonIgnore
+//    @Embedded
+//    private FotoProduto fotoProduto;
 
     @ManyToOne
     @JoinColumn(name = "restaurante_id", nullable = false)
