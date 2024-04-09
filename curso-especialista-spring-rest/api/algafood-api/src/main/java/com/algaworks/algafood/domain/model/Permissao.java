@@ -1,13 +1,12 @@
 package com.algaworks.algafood.domain.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -24,5 +23,11 @@ public class Permissao {
 	
 	@Column(nullable = false)
 	private String descricao;
+
+	@ManyToMany
+	@JoinTable(name = "permissao_grupo",
+			joinColumns = @JoinColumn(name = "permissao_id"),
+			inverseJoinColumns = @JoinColumn(name = "grupo_id"))
+	private List<Grupo> grupos = new ArrayList<>();
 	
 }
