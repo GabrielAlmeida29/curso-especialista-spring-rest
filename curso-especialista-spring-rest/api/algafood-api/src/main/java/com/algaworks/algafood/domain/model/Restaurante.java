@@ -59,5 +59,10 @@ public class Restaurante {
 	@JsonIgnore
 	@OneToMany(mappedBy = "restaurante")
 	private List<Produto> produtos = new ArrayList<>();
+
+	@OneToMany(mappedBy = "restaurante")
+	private List<Pedido> pedido = new ArrayList<>();
+
+
 	
 }

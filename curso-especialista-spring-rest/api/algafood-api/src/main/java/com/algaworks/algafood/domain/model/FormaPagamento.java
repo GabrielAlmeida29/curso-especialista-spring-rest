@@ -5,7 +5,6 @@ import javax.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -20,5 +19,8 @@ public class FormaPagamento {
 	
 	@Column(nullable = false)
 	private String descricao;
-	
+
+	@OneToMany(mappedBy = "formaDePagamento")
+	private List<Pedido> pedidos;
+
 }
