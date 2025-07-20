@@ -20,7 +20,7 @@ public class FormaPagamento {
 	@Column(nullable = false)
 	private String descricao;
 
-	@OneToMany(mappedBy = "formaDePagamento")
+	@OneToMany(mappedBy = "formaPagamento")
 	private List<Pedido> pedidos;
 
 }
