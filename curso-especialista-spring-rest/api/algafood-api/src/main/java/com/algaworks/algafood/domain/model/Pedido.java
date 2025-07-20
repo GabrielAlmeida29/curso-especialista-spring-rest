@@ -7,6 +7,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -41,6 +43,9 @@ public class Pedido {
     @CreationTimestamp
     @Column(columnDefinition = "datetime")
     private LocalDateTime dataEntrega;
+
+    @OneToMany(mappedBy = "pedido")
+    private List<ItemPedido> itemPedido = new ArrayList<>();
 
 
 }

@@ -27,4 +27,8 @@ public class ItemPedido {
     @Column(name = "observacao", nullable = false)
     private String observacao;
 
+    @ManyToOne
+    @JoinColumn(name = "pedido_id", nullable = false)
+    private Pedido pedido;
+
 }
