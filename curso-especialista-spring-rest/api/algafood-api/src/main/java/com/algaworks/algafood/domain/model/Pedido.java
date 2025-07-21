@@ -53,8 +53,8 @@ public class Pedido {
     private StatusPedido statusPedido;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
+    @JoinColumn(name = "usuario_cliente_id", nullable = false)
+    private Usuario cliente;
 
     @ManyToOne
     @JoinColumn(name = "restaurante_id", nullable = false)
