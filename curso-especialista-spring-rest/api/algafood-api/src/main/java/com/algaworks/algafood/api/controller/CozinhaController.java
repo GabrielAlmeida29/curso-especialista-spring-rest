@@ -1,7 +1,5 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.domain.exceptions.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CozinhaService;
@@ -10,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,13 +28,8 @@ public class CozinhaController {
 	}
 
 	@GetMapping("/{cozinhaId}")
-	public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
-		Optional<Cozinha> cozinha = cozinhaRepository.findById(cozinhaId);
-		if (cozinha.isPresent()) {
-			return ResponseEntity.status(HttpStatus.OK).body(cozinha.get());
-		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
+	public Cozinha buscar(@PathVariable Long cozinhaId) {
+		return cozinhaService.buscaOuFalha(cozinhaId);
 	}
 
 	@PostMapping
@@ -48,30 +40,16 @@ public class CozinhaController {
 		}
 
 	@PutMapping("/{cozinhaId}")
-	public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha){
-		Optional<Cozinha> cozinhaAtual = cozinhaRepository.findById(cozinhaId);
-
-		if(cozinhaAtual.isPresent()) {
-			BeanUtils.copyProperties(cozinha, cozinhaAtual.get(), "id");
-
-			Cozinha cozinhaSalva = cozinhaService.salvar(cozinhaAtual.get());
-			return ResponseEntity.status(HttpStatus.OK).body(cozinhaSalva);
-
-		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
+	public Cozinha atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha){
+		Cozinha cozinhaAtual = cozinhaService.buscaOuFalha(cozinhaId);
+			BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
+			return cozinhaService.salvar(cozinhaAtual);
 	}
 
 	@DeleteMapping("/{cozinhaId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cozinhaId) {
-		try{
 		cozinhaService.excluir(cozinhaId);
-		} catch (EntidadeNaoEncontradaException e){
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Não existe um cadastro de cozinha com código %d.", cozinhaId));
-		} catch (EntidadeEmUsoException e){
-			throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("Não é possível excluir a cozinha de ID %d.", cozinhaId));
-		}
 
 	}
 
