@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CidadeService {
 
-    public static final String MSG_ENTIDADE_EM_USO = "Cidade de código %d não pode ser removida, pois está em uso.";
-    public static final String MSG_ENTIDADE_NAO_ENCONTRADA = "Não existe um cadastro de cidade com código %d.";
+    public static final String MSG_CIDADE_EM_USO = "Cidade de código %d não pode ser removida, pois está em uso.";
+    public static final String MSG_CIDADE_NAO_ENCONTRADA = "Não existe um cadastro de cidade com código %d.";
 
     @Autowired
     private CidadeRepository cidadeRepository;
@@ -35,16 +35,16 @@ public class CidadeService {
             cidadeRepository.deleteById(cidadeId);
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException
-                    (String.format(MSG_ENTIDADE_EM_USO, cidadeId));
+                    (String.format(MSG_CIDADE_EM_USO, cidadeId));
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(String.format(MSG_ENTIDADE_NAO_ENCONTRADA, cidadeId));
+            throw new EntidadeNaoEncontradaException(String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId));
         }
 
     }
 
     public Cidade buscaOuFalha(Long cidadeId){
         return cidadeRepository.findById(cidadeId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(String.format(MSG_ENTIDADE_NAO_ENCONTRADA, cidadeId)));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId)));
     }
 
 }

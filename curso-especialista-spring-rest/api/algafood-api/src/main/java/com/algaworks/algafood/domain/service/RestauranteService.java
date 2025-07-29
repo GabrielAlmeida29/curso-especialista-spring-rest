@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class RestauranteService {
 
-    public static final String MSG_ENTIDADE_EM_USO = "Restaurante de código %d não pode ser removida, pois está em uso.";
-    public static final String MSG_ENTIDADE_NAO_ENCONTRADA = "Não existe um cadastro de restaurante com código %d.";
+    public static final String MSG_RESTAURANTE_EM_USO = "Restaurante de código %d não pode ser removida, pois está em uso.";
+    public static final String MSG_RESTAURANTE_NAO_ENCONTRADO = "Não existe um cadastro de restaurante com código %d.";
 
     @Autowired
     private RestauranteRepository restauranteRepository;
@@ -34,15 +34,15 @@ public class RestauranteService {
             restauranteRepository.deleteById(restauranteId);
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException
-                    (String.format(MSG_ENTIDADE_EM_USO, restauranteId));
+                    (String.format(MSG_RESTAURANTE_EM_USO, restauranteId));
         } catch (EmptyResultDataAccessException e){
-            throw new EntidadeNaoEncontradaException(String.format(MSG_ENTIDADE_NAO_ENCONTRADA, restauranteId));
+            throw new EntidadeNaoEncontradaException(String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, restauranteId));
         }
     }
 
     public Restaurante buscaOuFalha(Long restauranteId) {
     return restauranteRepository.findById(restauranteId)
-            .orElseThrow(() -> new EntidadeNaoEncontradaException(String.format(MSG_ENTIDADE_NAO_ENCONTRADA, restauranteId)));
+            .orElseThrow(() -> new EntidadeNaoEncontradaException(String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, restauranteId)));
     }
 
 }
