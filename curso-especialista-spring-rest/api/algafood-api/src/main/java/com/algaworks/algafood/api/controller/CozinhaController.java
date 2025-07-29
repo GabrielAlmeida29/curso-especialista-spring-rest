@@ -6,11 +6,9 @@ import com.algaworks.algafood.domain.service.CozinhaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value="/cozinhas")
@@ -33,10 +31,8 @@ public class CozinhaController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Cozinha> adicionar(@RequestBody Cozinha cozinha){
-		Cozinha novaCozinha = cozinhaService.salvar(cozinha);
-
-			return ResponseEntity.status(HttpStatus.CREATED).body(novaCozinha);
+	public Cozinha adicionar(@RequestBody Cozinha cozinha){
+		return cozinhaService.salvar(cozinha);
 		}
 
 	@PutMapping("/{cozinhaId}")
