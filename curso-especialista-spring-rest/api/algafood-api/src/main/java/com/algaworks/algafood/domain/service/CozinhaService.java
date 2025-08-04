@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.service;
 
+import com.algaworks.algafood.domain.exceptions.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exceptions.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cozinha;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class CozinhaService {
 
-    public static final String MSG_COZINHA_NAO_ENCONTRADA = "Não existe um cadastro de cozinha com código %d.";
     public static final String MSG_COZINHA_EM_USO = "Cozinha com código %d não pode ser apagado pois está em uso.";
 
     @Autowired
@@ -29,15 +29,13 @@ public class CozinhaService {
             throw new EntidadeEmUsoException(
                     String.format(MSG_COZINHA_EM_USO, cozinhaId));
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format(MSG_COZINHA_NAO_ENCONTRADA, cozinhaId));
+            throw new CozinhaNaoEncontradaException(cozinhaId);
         }
     }
 
     public Cozinha buscaOuFalha(Long cozinhaId){
         return cozinhaRepository.findById(cozinhaId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format(MSG_COZINHA_NAO_ENCONTRADA, cozinhaId)));
+                .orElseThrow(() -> new CozinhaNaoEncontradaException(cozinhaId));
     }
 
 }
